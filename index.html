@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+<h1>SIMPLE CALCULATOR USING JS</h1>
+</body>
+<script>
+    function performOperation(operation, num1, num2) {
+        if (operation === "+") {
+            return num1 + num2;
+        } else if (operation === "-") {
+            return num1 - num2;
+        } else if (operation === "*") {
+            return num1 * num2;
+        } else if (operation === "/") {
+            return num2 !== 0 ? num1 / num2 : "Error: Division by zero";
+        } else {
+            return "Error: Invalid operation";
+        }
+    }
+    function getUserInput() {
+        const operations = ["+", "-", "*", "/"];
+        let operation = prompt("Enter operation (+, -, *, /):").toLowerCase();
+        while (!operations.includes(operation)) {
+            operation = prompt("Invalid operation! Enter one of (+, -, *, /):").toLowerCase();
+        }
+        let num1 = parseFloat(prompt("Enter the first number:"));
+        while (isNaN(num1)) {
+            num1 = parseFloat(prompt("Invalid number! Please enter a valid first number:"));
+        }
+        let num2 = parseFloat(prompt("Enter the second number:"));
+        while (isNaN(num2)) {
+            num2 = parseFloat(prompt("Invalid number! Please enter a valid second number:"));
+        }
+        return { operation, num1, num2 };
+    }
+    function displayHistory(calculationHistory) {
+        if (calculationHistory.length === 0) {
+            console.log("No calculations performed yet.");
+        } else {
+            console.log("Calculation History:");
+            calculationHistory.forEach((entry, index) => {
+                console.log(`${index + 1}: ${entry}`);
+            });
+        }
+    }
+    function startCalculator() {
+        let calculationHistory = [];
+        let continueCalculating = true;
+        while (continueCalculating) {
+            const userInput = getUserInput();
+            const result = performOperation(userInput.operation, userInput.num1, userInput.num2);
+            const operationString = `${userInput.num1} ${userInput.operation} ${userInput.num2} = ${result}`;
+            console.log(operationString);
+            calculationHistory.push(operationString);
+            const DifferentOperation = prompt("Do you want to perform another calculation? (yes/no)").toLowerCase();
+            continueCalculating = DifferentOperation === "yes";
+        }
+        displayHistory(calculationHistory);
+    }
+    startCalculator();
+</script>
+
+</html>
